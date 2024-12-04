@@ -2,7 +2,9 @@
 function Regions() {
   return (
     <>
-      <h1>this is regions</h1>
+      <main>
+        <h1>this is regions</h1>
+      </main>
     </>
   )
 }

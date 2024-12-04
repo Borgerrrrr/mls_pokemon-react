@@ -1,0 +1,18 @@
+dex api:
+https://pokeapi.co/api/v2/pokedex/{id or name}/
+pokemon:
+https://pokeapi.co/api/v2/pokemon/{id or name}/
+species api:
+https://pokeapi.co/api/v2/pokemon-species/{id or name}/
+
+notes:
+use species-api to get id associated to name, then use pokemon-api to get full details using id from before
+
+todo:
+- process data when loading a new pokedex into local store. local store should be fully functional without having to keep fetching data (unless for detailed view)
+  - might want to eventually export json processor into a util so it can work for /regions page too
+- style pokedex a bit. check if rerenders are doing ok
+- handle search
+
+
+done:

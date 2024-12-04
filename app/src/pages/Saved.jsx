@@ -2,7 +2,9 @@
 function Saved() {
   return (
     <>
-      <h1>this is Saved</h1>
+      <main>
+        <h1>this is saved</h1>
+      </main>
     </>
   )
 }

@@ -1,4 +1,5 @@
 import '../App.css'
+import { Link } from 'react-router-dom'
 
 function Nav() {
   return (
@@ -7,16 +8,16 @@ function Nav() {
         <h2 id='nav-title'>😻 Poke</h2>
         <ul id='nav-list'>
           <li id='nav-home' className='nav-item'>
-            <a href='/'>Search</a>
+            <Link to='/'>Search</Link>
           </li>
           <li id='nav-saved' className='nav-item'>
-            <a href='/saved'>Saved</a>
+            <Link to='/saved'>Saved</Link>
           </li>
           <li id='nav-pokedex' className='nav-item'>
-            <a href='/pokedex'>Pokedex</a>
+            <Link to='/pokemon'>Pokedex</Link>
           </li>
           <li id='nav-regions' className='nav-item'>
-            <a href='/regions'>Regions</a>
+            <Link to='/regions'>Regions</Link>
           </li>
         </ul>
       </header>
