@@ -17,7 +17,7 @@ import {
   pokedexAPI,
   pokemonSpeciesAPI,
   pokemonAPI
-} from './api/api'
+} from './api'
 import {
   Search,
   Pokedex,
@@ -30,11 +30,15 @@ import {
   Nav,
   Footer
 } from './components'
-import PokemonContext from './context/PokemonContext'
+import PokedexContext from './context/PokedexContext'
 
 function App() {
   // object holding the current dex
   const [currPokedex, setCurrPokedex] = useState(null);
+
+  // honestly giving up on this localstorage bullshit
+  // const [currPokedex, setCurrPokedex] = useState(getLocalStorageKey('pokemon-react'));
+
   // array holding the currently saved pokemon (in ids)
   const [savedPokemon, setSavedPokemon] = useState([]);
 
@@ -42,7 +46,7 @@ function App() {
     const initPokedex = async () => {
       if (currPokedex === null) {
         // defaults to pokedex/1 which is kanto pokedex
-        let [data, error] = await fetchData(pokedexAPI+1);
+        let [data, error] = await fetchData(pokedexAPI+4);
         if (error) {
           const error = `
           <h1 id='fetch-error'>
@@ -54,18 +58,17 @@ function App() {
         }
         // does this cause a re-render?
         // clean data here
-        data = await processPokedex(data);
-        console.log('init here')
-        console.log(data);
-        return data;
-  
-        // setPokedex(data);
+        // console.log(data);
+        const processed = await processPokedex(data);
+        // console.log(data);
+        // set and rerender
+        setCurrPokedex({
+          'id': data.id,
+          'name': data.name,
+          'entries': processed
+        });
       } else {
-        console.log('re-render for some reason')
-        console.log(currPokedex);
-        return currPokedex;
-
-        // setPokedex(localPokedex);
+        // console.log("probably don't need this else clause");
       }
     }
     initPokedex();
@@ -80,38 +83,40 @@ function App() {
     const processed = [];
     // need just id, name, sprite, types
     //                       LMAO WHAT IS THIS
-    await data.pokemon_entries.map(async item => {
+    await data.pokemon_entries.forEach(async item => {
       // api calls to grab sprite and types
       // sprites.front_default
       // types.map(each => each.type.name)
       const strId = item.pokemon_species.url.slice(42, item.pokemon_species.url.lastIndexOf('/'))
-      const [data, error] = await fetchData(pokemonAPI+strId);
-      if (error)  {
+      let [data, error] = await fetchData(pokemonAPI+strId);
+      while (error)  {
+        [data, error] = await fetchData(pokemonAPI+strId);
         // render error or somehting
         // now i just hope it doesn't happen bc
         // i really don't wanna handle it right now it's 11:54pm
       }
       // return new obj containing only id, name, sprite, types
-      processed.push({
+      processed[item.entry_number] = {
         'id': Number(strId),
         'entryNumber': item.entry_number,
         'name': item.pokemon_species.name,
         'sprite': data.sprites.front_default,
         'types': data.types.map(i => i.type.name)
-      });
+      };
     })
+    // console.log(processed);
     return processed;
   }
 
+  // make better loading shit here maybe?
+  if (currPokedex === null) return <h1>loading...</h1>;
   return (
     <>
       <Nav />
-      <PokemonContext.Provider
+      <PokedexContext.Provider
       value={{
         currPokedex,
-        setCurrPokedex,
-        savedPokemon,
-        setSavedPokemon
+        setCurrPokedex
       }}>
         <Routes>
           <Route path="/" element={<Search />} />
@@ -123,7 +128,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="*" element={<NotFound />} />
         </Routes> 
-      </PokemonContext.Provider>
+      </PokedexContext.Provider>
       <Footer />
     </>
   )
