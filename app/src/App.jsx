@@ -30,11 +30,13 @@ import {
   Nav,
   Footer
 } from './components'
-import PokedexContext from './context/PokedexContext'
+import PokemonContext from './context/PokemonContext'
 
 function App() {
   // object holding the current dex
   const [currPokedex, setCurrPokedex] = useState(null);
+  // object holding the currently selected pokemon
+  const [currPokemon, setCurrPokemon] = useState(null);
 
   // honestly giving up on this localstorage bullshit
   // const [currPokedex, setCurrPokedex] = useState(getLocalStorageKey('pokemon-react'));
@@ -113,10 +115,10 @@ function App() {
   return (
     <>
       <Nav />
-      <PokedexContext.Provider
+      <PokemonContext.Provider
       value={{
-        currPokedex,
-        setCurrPokedex
+        currPokedex, setCurrPokedex,
+        currPokemon, setCurrPokemon
       }}>
         <Routes>
           <Route path="/" element={<Search />} />
@@ -128,7 +130,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="*" element={<NotFound />} />
         </Routes> 
-      </PokedexContext.Provider>
+      </PokemonContext.Provider>
       <Footer />
     </>
   )

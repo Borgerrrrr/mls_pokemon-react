@@ -1,24 +1,20 @@
-import PokedexContext from '../context/PokedexContext'
+import PokemonContext from '../context/PokemonContext'
 import {
   useEffect,
   useContext,
   useState
 } from 'react';
-import {
-  pokemonAPI
-} from '../api'
-import {
-  fetchData
-} from '../utils'
-import {
-  PokemonCard
-} from '../components'
+import { pokemonAPI } from '../api'
+import { fetchData } from '../utils'
+import { PokemonCard } from '../components'
+import { useNavigate } from 'react-router-dom';
 
 function Pokedex() {
   const {
-    currPokedex,
-    setCurrPokedex
-  } = useContext(PokedexContext);
+    currPokedex, setCurrPokedex,
+    currPokemon, setCurrPokemon
+  } = useContext(PokemonContext);
+  const navigate = useNavigate();
 
 
   const prepPokedex = () => {
@@ -41,6 +37,8 @@ function Pokedex() {
     }
     console.log(data);
     // route based on the link url on data?
+    setCurrPokemon(data);
+    navigate(`/pokemon/${id}`);
   }
 
   // there is something wrong with rendering if you refresh the page while in /pokedex path... idk how to properly handle that ... maybe useEffect? but i'll push that for later because i'm lazy as fuck!

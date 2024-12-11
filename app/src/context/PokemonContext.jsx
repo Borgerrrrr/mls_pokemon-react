@@ -1,8 +1,11 @@
 import { createContext } from 'react'
 
+
+
+
 // maybe hardcode the kanto pokedex here ???
 const defaultValue = {}
 
-const PokedexContext = createContext({});
+const PokemonContext = createContext({});
 
-export default PokedexContext;
+export default PokemonContext;

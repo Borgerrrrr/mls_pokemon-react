@@ -1,3 +1,4 @@
+import { TypesDiv } from '.'
 
 function PokemonCard({ data }) {
   return (
@@ -6,18 +7,7 @@ function PokemonCard({ data }) {
         <span className='entry-number'>{data.entryNumber}</span>
         <span>{data.name}</span>
         <img src={data.sprite} alt={data.name + ' sprite'} />
-        <div className='types-container'>
-          {data.types.map((type, index) => {
-            return (
-              <span
-                className='type-span'
-                key={index}
-              >
-                {type}
-              </span>
-            )
-          })}
-        </div>
+        <TypesDiv data={data.types} />
       </div>
     </>
   )

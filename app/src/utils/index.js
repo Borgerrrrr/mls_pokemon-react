@@ -3,9 +3,11 @@ import {
   getLocalStorageKey,
   setLocalStorageKey
 } from './localStore'
+import { calculateAspectRatioFit } from './assorted'
 
 export {
   getLocalStorageKey,
   setLocalStorageKey,
-  fetchData
+  fetchData,
+  calculateAspectRatioFit
 }

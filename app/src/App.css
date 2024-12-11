@@ -137,3 +137,7 @@ div.types-container {
 .types-container>span {
   font-size: 1rem;
 }
+.pokemon-container>img {
+  max-width: 300px;
+  max-height: 300px;
+}
